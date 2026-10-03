@@ -3,7 +3,7 @@ import time
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 
-from config import PAUSE, BAD
+from config import PAUSE, MAX_ATTEMPTS, CHECK_INTERVAL, BAD
 from utils import calc_time
 
 def run_bruteforce(driver):
@@ -23,7 +23,7 @@ def run_bruteforce(driver):
         time.sleep(0.5)
 
         start_time = time.perf_counter()
-        for i in range(200):
+        for i in range(MAX_ATTEMPTS):
             code = f"{i:06d}"
 
             driver.execute_script("arguments[0].innerText = '';", message_input)
@@ -34,12 +34,12 @@ def run_bruteforce(driver):
 
             time.sleep(PAUSE)
 
-            if i % 10 == 0:
+            if i % CHECK_INTERVAL == CHECK_INTERVAL - 1:
                 try:
                     #messages = driver.find_elements(By.CSS_SELECTOR, "div.peer-color-3 div.content-inner div.text-content")
                     messages = driver.find_elements(By.CSS_SELECTOR, ".translatable-message")
 
-                    last_messages = [msg.text for msg in messages[-250:]]
+                    last_messages = [msg.text for msg in messages[-606:]]
 
                     stop_found = False
                     #print("sz =", len(last_messages))
