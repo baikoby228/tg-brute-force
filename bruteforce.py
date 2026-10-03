@@ -3,10 +3,11 @@ import time
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 
-from config import PAUSE, MAX_ATTEMPTS, CHECK_INTERVAL, BAD
+from config import PAUSE, MAX_ATTEMPTS, CHECK_INTERVAL, CHECK_WINDOW_SIZE , BAD
 from utils import calc_time
 
 def run_bruteforce(driver):
+    #print(f'PAUSE = {PAUSE}')
     try:
         input("==> После того как открыли нужный чат, нажмите ENTER здесь для старта... <==")
         time.sleep(1)
@@ -39,7 +40,7 @@ def run_bruteforce(driver):
                     #messages = driver.find_elements(By.CSS_SELECTOR, "div.peer-color-3 div.content-inner div.text-content")
                     messages = driver.find_elements(By.CSS_SELECTOR, ".translatable-message")
 
-                    last_messages = [msg.text for msg in messages[-606:]]
+                    last_messages = [msg.text for msg in messages[-CHECK_WINDOW_SIZE:]]
 
                     stop_found = False
                     #print("sz =", len(last_messages))

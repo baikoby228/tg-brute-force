@@ -5,7 +5,7 @@ from aiogram.types import Message
 
 BOT_TOKEN = "8851040047:AAFUjwyCMSErmpTSWElBLOgZELHTaBTrmdU"
 
-PASSWORD = "000067"
+PASSWORD = "000167"
 
 bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher()
