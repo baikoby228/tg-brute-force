@@ -19,7 +19,8 @@ def main():
 
     print(f"[*] Запуск браузера. Профиль сохраняется в: {profile_dir}")
 
-    driver = uc.Chrome(options=options, version_main=152)
+    #driver = uc.Chrome(options=options, version_main=152)
+    driver = uc.Chrome(options=options)
 
     driver.maximize_window()
 
